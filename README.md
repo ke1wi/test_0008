@@ -5,7 +5,7 @@
 1. Клонуйте репозиторій.
 2. Перейдіть у кореневу директорію проєкту:
    ```bash
-   cd TestWork0008
+   cd test_0008
    ```
 3. ```bash
    docker-compose up --build
