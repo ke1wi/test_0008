@@ -1,0 +1,42 @@
+[project]
+name = "test0008"
+version = "0.1.0"
+description = "Add your description here"
+authors = [{ name = "Volodymyr Klimchuk", email = "ke1wi.ua.work@gmail.com" }]
+dependencies = [
+    "fastapi[standard]>=0.115.12",
+    "asyncpg>=0.30.0",
+    "sqlalchemy[asyncio]>=2.0.40",
+    "alembic>=1.15.2",
+    "pytest>=8.3.5",
+    "httpx>=0.28.1",
+    "pytest-asyncio>=0.26.0",
+    "pydantic>=2.11.4",
+    "pydantic-settings>=2.9.1",
+    "loguru>=0.7.3",
+    "aiosqlite>=0.21.0",
+    "aio-celery[redis]>=0.20.0",
+    "pip>=25.1.1",
+]
+readme = "README.md"
+requires-python = ">= 3.8"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.rye]
+managed = true
+dev-dependencies = ["ruff>=0.11.8", "black>=25.1.0", "mypy>=1.15.0"]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["app"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "strict"
+asyncio_default_fixture_loop_scope = "function"
+testpaths = ["tests"]
+addopts = "--asyncio-mode=strict"

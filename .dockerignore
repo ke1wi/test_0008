@@ -1,0 +1,39 @@
+# Python
+*.pyc
+*.pyo
+*.pyd
+__pycache__
+*.so
+*.egg-info
+.venv
+.mypy_cache
+.ruff_cache
+
+# Django and other temporary files
+*.log
+*.pot
+*.pyc
+*.pyo
+*.sqlite3
+*.db
+
+# Virtual environments
+.venv/
+env/
+venv/
+
+# IDEs and text editors
+.vscode/
+.idea/
+*.swp
+
+# Git
+.git/
+.gitignore
+
+# Docker
+.dockerignore
+
+# Other
+/tests/
+logs/

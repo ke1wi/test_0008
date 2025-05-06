@@ -1,0 +1,64 @@
+services:
+  web:
+    build: .
+    env_file: .env
+    ports:
+      - "8000:8000"
+    depends_on:
+      - database
+      - redis
+    volumes:
+      - .:/app
+      - alembic:/test0008/alembic
+    command: >
+      bash -c "alembic revision --autogenerate -m "Automigration" && alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8000"
+    networks:
+      - app_network
+
+  database:
+    image: postgres:15
+    restart: always
+    env_file: .env
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app_network
+
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+    networks:
+      - app_network
+      
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"   # AMQP (Celery broker)
+      - "15672:15672" # Web UI
+    networks:
+      - app_network
+
+  celery:
+    build: .
+    command: >
+      bash -c "./wait-for-it.sh rabbitmq:5672 -- aio_celery worker app.celery_worker:celery -l INFO"
+    depends_on:
+      - redis
+      - rabbitmq
+      - database
+    env_file: .env
+    volumes:
+      - .:/app
+    networks:
+      - app_network
+
+volumes:
+  postgres_data:
+  alembic:
+
+networks:
+  app_network:
+    driver: bridge
